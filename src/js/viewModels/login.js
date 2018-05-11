@@ -3,16 +3,51 @@
  * The Universal Permissive License (UPL), Version 1.0
  */
 /*
- * Your customer ViewModel code goes here
+ * Your Login ViewModel code goes here
  */
-define(['ojs/ojcore', 'knockout', 'jquery'],
- function(oj, ko, $) {
-  
-    function CustomerViewModel() {
-      var self = this;
-      // Below are a subset of the ViewModel methods invoked by the ojModule binding
-      // Please reference the ojModule jsDoc for additional available methods.
+define(['ojs/ojcore', 'knockout', 'jquery','md5'],
+ function(oj, ko, $, md5) {
 
+    function LoginViewModel() {
+      var self = this;
+      self.user = ko.observable();
+      self.password = ko.observable();
+      self.isValid = ko.observable(false);
+      self.login = ()=>{
+        $.ajax({
+          method: 'GET',
+          url: `https://db-fin.herokuapp.com/user?email=${self.user()}&password=${md5(self.password())}`,
+          error: () => {
+            self.isValid(true);
+          },
+          success: () => {
+            self.router = oj.Router.rootInstance;
+            self.router.configure({
+              'dashboard': {label: 'Dashboard', isDefault: true},
+              'egresos': {label: 'Egresos'},
+              'documentos': {label: 'Documentos'}
+            });
+           // Navigation setup
+           var navData = [
+           {name: 'Dashboard', id: 'dashboard',
+            iconClass: 'oj-navigationlist-item-icon '},
+           {name: 'Egresos', id: 'egresos',
+            iconClass: 'oj-navigationlist-item-icon '},
+           {name: 'Documents', id: 'documentos',
+            iconClass: 'oj-navigationlist-item-icon '}
+           ];
+           // self.navDataSource = new oj.ArrayTableDataSource(navData, {idAttribute: 'id'});
+           var rootViewModel = ko.dataFor(document.getElementById('mainContent'));
+            rootViewModel.navDataSource.reset(navData, {idAttribute: 'id'});
+            rootViewModel.userLogin(self.user());
+            rootViewModel.isLoggedIn(true);
+            self.user(null);
+            self.password(null);
+           oj.Router.sync();
+          },
+        });
+
+      }
       /**
        * Optional ViewModel method invoked when this ViewModel is about to be
        * used for the View transition.  The application can put data fetch logic
@@ -25,7 +60,7 @@ define(['ojs/ojcore', 'knockout', 'jquery'],
        * the promise is resolved
        */
       self.handleActivated = function(info) {
-        // Implement if needed
+
       };
 
       /**
@@ -43,7 +78,7 @@ define(['ojs/ojcore', 'knockout', 'jquery'],
 
 
       /**
-       * Optional ViewModel method invoked after the bindings are applied on this View. 
+       * Optional ViewModel method invoked after the bindings are applied on this View.
        * If the current View is retrieved from cache, the bindings will not be re-applied
        * and this callback will not be invoked.
        * @param {Object} info - An object with the following key-value pairs:
@@ -72,6 +107,6 @@ define(['ojs/ojcore', 'knockout', 'jquery'],
      * each time the view is displayed.  Return an instance of the ViewModel if
      * only one instance of the ViewModel is needed.
      */
-    return new CustomerViewModel();
+    return new LoginViewModel();
   }
 );

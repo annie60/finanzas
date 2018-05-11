@@ -31,6 +31,7 @@ requirejs.config(
     'customElements': 'libs/webcomponents/custom-elements.min',
     'proj4': 'libs/proj4js/dist/proj4-src',
     'css': 'libs/require-css/css',
+    'md5': 'libs/blueimp-md5/md5'
   }
   //endinjector
   ,
@@ -54,7 +55,7 @@ requirejs.config(
 require(['ojs/ojcore', 'knockout', 'appController', 'ojs/ojknockout',
   'ojs/ojmodule', 'ojs/ojrouter', 'ojs/ojnavigationlist', 'ojs/ojbutton', 'ojs/ojtoolbar'],
   function (oj, ko, app) { // this callback gets executed when all required modules are loaded
-    
+
     $(function() {
 
       function init() {
@@ -69,7 +70,7 @@ require(['ojs/ojcore', 'knockout', 'appController', 'ojs/ojknockout',
         );
       }
 
-      // If running in a hybrid (e.g. Cordova) environment, we need to wait for the deviceready 
+      // If running in a hybrid (e.g. Cordova) environment, we need to wait for the deviceready
       // event before executing any code that might interact with Cordova APIs or plugins.
       if ($(document.body).hasClass('oj-hybrid')) {
         document.addEventListener("deviceready", init);
@@ -78,6 +79,6 @@ require(['ojs/ojcore', 'knockout', 'appController', 'ojs/ojknockout',
       }
 
     });
-    
+
   }
 );

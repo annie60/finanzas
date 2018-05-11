@@ -16,7 +16,7 @@
   provided as part of the JET framework.
 
   Please see the demos under Cookbook/Patterns/App Shell: Web and the CSS documentation
-  under Support/API Docs/Non-Component Styling on the JET website for more information on how to use 
+  under Support/API Docs/Non-Component Styling on the JET website for more information on how to use
   the best practice patterns shown in this template.
 
   Aria Landmark role attributes are added to the different sections of the application
@@ -26,7 +26,7 @@
   ***************************** IMPORTANT INFORMATION ************************************ -->
 <html lang="en-us">
   <head>
-    <title>Oracle JET Starter Template - Web Nav Bar</title>
+    <title>Estado de finanzas</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1">
@@ -36,7 +36,7 @@
     <!-- injector:theme -->
     <link rel="stylesheet" href="css/libs/oj/v4.1.0/alta/oj-alta-min.css" type="text/css"/>
     <!-- endinjector -->
-    
+
     <!-- This contains icon fonts used by the starter template -->
     <link rel="stylesheet" href="css/demo-alta-site-min.css" type="text/css"/>
 
@@ -60,11 +60,9 @@
          ** and the CSS documentation under Support/API Docs/Non-Component Styling
          ** on the JET website for more information on how to use this pattern.
       -->
-      <header role="banner" class="oj-web-applayout-header">
+      <header role="banner" class="oj-web-applayout-header" data-bind='visible: isLoggedIn()'>
         <div class="oj-web-applayout-max-width oj-flex-bar oj-sm-align-items-center">
           <div class="oj-flex-bar-middle oj-sm-align-items-baseline">
-            <span role="img" class="oj-icon demo-oracle-icon" title="Oracle Logo" alt="Oracle Logo"></span>
-            <h1 class="oj-sm-only-hide oj-web-applayout-header-title" title="Application Name" data-bind="text: appName"></h1>
           </div>
           <div class="oj-flex-bar-end">
             <!-- Responsive Toolbar -->
@@ -73,16 +71,13 @@
                 <span data-bind="text: userLogin"></span>
                 <span slot="endIcon" data-bind="css: smScreen() ? 'oj-icon demo-appheader-avatar' : 'oj-component-icon oj-button-menu-dropdown-icon'"></span>
                 <oj-menu id="menu1" slot="menu" style="display:none">
-                  <oj-option id="pref" value="pref">Preferences</oj-option>
-                  <oj-option id="help" value="help">Help</oj-option>
-                  <oj-option id="about" value="about">About</oj-option>
                   <oj-option id="out" value="out">Sign Out</oj-option>
                 </oj-menu>
               </oj-menu-button>
             </oj-toolbar>
           </div>
         </div>
-        <div role="navigation" class="oj-web-applayout-max-width oj-web-applayout-navbar">
+        <div role="navigation" class="oj-web-applayout-max-width oj-web-applayout-navbar" data-bind="visible: isLoggedIn()">
           <oj-navigation-list data="[[navDataSource]]"
                               data-bind="css: smScreen() ? '' : 'oj-md-condense oj-md-justify-content-flex-end'"
                               display="[[smScreen() ? 'icons' : 'all']]"
@@ -92,22 +87,16 @@
           </oj-navigation-list>
         </div>
       </header>
-      <div role="main" class="oj-web-applayout-max-width oj-web-applayout-content" data-bind="ojModule: router.moduleConfig">
+      <div role="main" id="mainContent" class="oj-web-applayout-content" data-bind="ojModule: router.moduleConfig">
       </div>
-      <footer class="oj-web-applayout-footer" role="contentinfo">
-        <div class="oj-web-applayout-footer-item oj-web-applayout-max-width">
-          <ul>
-            <!-- ko foreach: footerLinks -->
-            <li><a data-bind="text : name, attr : {id: linkId, href : linkTarget}"></a></li>
-            <!-- /ko -->
-          </ul>
-        </div>
+      <footer class="oj-web-applayout-footer" role="contentinfo" data-bind='visible: isLoggedIn()'>
+
         <div class="oj-web-applayout-footer-item oj-web-applayout-max-width oj-text-secondary-color oj-text-sm">
-          Copyright © 2014, 2017 Oracle and/or its affiliates All rights reserved.
+          Copyright © 2018
         </div>
       </footer>
     </div>
-    
+
     <script type="text/javascript" src="js/libs/require/require.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
 

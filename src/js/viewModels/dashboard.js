@@ -7,7 +7,7 @@
  */
 define(['ojs/ojcore', 'knockout', 'jquery'],
  function(oj, ko, $) {
-  
+
     function DashboardViewModel() {
       var self = this;
       // Below are a subset of the ViewModel methods invoked by the ojModule binding
@@ -25,7 +25,7 @@ define(['ojs/ojcore', 'knockout', 'jquery'],
        * the promise is resolved
        */
       self.handleActivated = function(info) {
-        // Implement if needed
+        
       };
 
       /**
@@ -43,7 +43,7 @@ define(['ojs/ojcore', 'knockout', 'jquery'],
 
 
       /**
-       * Optional ViewModel method invoked after the bindings are applied on this View. 
+       * Optional ViewModel method invoked after the bindings are applied on this View.
        * If the current View is retrieved from cache, the bindings will not be re-applied
        * and this callback will not be invoked.
        * @param {Object} info - An object with the following key-value pairs:
