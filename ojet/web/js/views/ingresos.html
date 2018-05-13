@@ -1,6 +1,20 @@
 <div class="oj-hybrid-padding">
-  <h1>Income Content Area</h1>
-  <div>
-      To change the content of this section, you will make edits to the ingresos.html file located in the /js/views folder.
+  <div class="oj-flex oj-lg-2">
+    <div class="oj-flex-item">
+      <oj-label for="combobox">Edificio</oj-label>
+      <oj-combobox-one id="combobox" style="max-width:20em"
+      on-value-changed="[[valueChange]]">
+        <!-- ko foreach: buildings -->
+        <oj-option value="[[id]]"><span data-bind="text: name"></span></oj-option>
+        <!-- /ko -->
+      </oj-combobox-one>
+    </div>
+    <div class="oj-flex-item" id='divCat' style="display: none;">
+      <oj-label for="comboboxCat">Categorias</oj-label>
+      <oj-combobox-one id="comboboxCat" style="max-width:20em" options="{{categories}}"
+      options-keys.value="id" options-keys.label="id">
+
+      </oj-combobox-one>
+    </div>
   </div>
 </div>

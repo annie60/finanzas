@@ -6,7 +6,7 @@
     "@oracle/oraclejet": "~4.1.0",
     "blueimp-md5": "^2.10.0",
     "express": "^4.16.3",
-    "velocity": "^0.7.2"
+    "velocity-animate": "^1.5.1"
   },
   "devDependencies": {
     "grunt": "^1.0.1",

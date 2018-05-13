@@ -25,6 +25,7 @@
   backface-visibility: hidden;
   box-sizing: border-box;
   padding: 10px;
+  background-color: #a5b452;
 }
 
 .backside {

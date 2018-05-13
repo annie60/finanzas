@@ -40,6 +40,10 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'md5','user'],
                 label: 'Egresos',
                 value: 'egresos'
               },
+              'ingresos': {
+                label: 'Ingresos',
+                value: 'ingresos'
+              },
               'documentos': {
                 label: 'Documentos',
                 value: 'documentos'
@@ -53,22 +57,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'md5','user'],
             user.apartment(data[0].department);
             user.reference(data[0].reference);
             user.pending(data[0].pending);
-            if ( user.isAdmin()) {
-              self.router.configure({
-                'egresos': {
-                  label: 'Egresos',
-                  value: 'egresos',
-                  isDefault: true
-                },
-                'ingresos': {
-                  label: 'Ingresos',
-                  value: 'ingresos'
-                },
-                'documentos': {
-                  label: 'Documentos',
-                  value: 'documentos'
-                }
-              });
+            if (user.isAdmin()) {
               // Navigation setup
               navData= [
                 {

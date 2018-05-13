@@ -3,13 +3,37 @@
  * The Universal Permissive License (UPL), Version 1.0
  */
 
-define(['ojs/ojcore', 'knockout', 'jquery', 'md5','user'],
-  function(oj, ko, $, md5,user) {
+define(['ojs/ojcore', 'knockout', 'jquery', 'md5', 'user', 'velocity', 'ojs/ojselectcombobox'],
+  function(oj, ko, $, md5, user) {
 
     function IncomeViewModel() {
       var self = this;
 
-
+      self.buildings = ko.observableArray([]);
+      self.categories = ko.observable([]);
+      self.valueChange = (valueParam) => {
+        valueParam = valueParam['detail'];
+        var valueObj = {};
+        if (valueParam.previousValue !== valueParam.value) {
+          let building = self.buildings().filter(element => element.id = valueParam.value);
+          if (building.length > 0) {
+            self.categories(building[0].categoriesIncome);
+          }else{
+            self.categories([]);
+          }
+        }
+        console.log(self.categories());
+        if (self.categories().length === 0) {
+          $('#divCat').velocity("slideUp", {
+            duration: 200
+          });
+        } else {
+          $('#divCat').velocity("slideDown", {
+            delay: 100,
+            duration: 1200
+          });
+        }
+      }
       /**
        * Optional ViewModel method invoked when this ViewModel is about to be
        * used for the View transition.  The application can put data fetch logic
@@ -22,7 +46,21 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'md5','user'],
        * the promise is resolved
        */
       self.handleActivated = function(info) {
+        if (user.isAdmin()) {
+          const promise = $.ajax({
+            method: 'GET',
+            url: `https://db-fin.herokuapp.com/building`,
+            error: () => {
 
+            },
+            success: (data) => {
+              self.buildings(data);
+            }
+          });
+          return promise;
+        } else {
+          oj.Router.rootInstance.go('dashboard');
+        }
       };
 
       /**
