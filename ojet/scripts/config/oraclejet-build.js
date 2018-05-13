@@ -40,6 +40,11 @@ module.exports = function () {
         cwd:'node_modules/blueimp-md5/js',
         src: ['*'],
         dest: 'web/js/libs/blueimp-md5'
+      },
+      {
+        cwd: 'node_modules/velocity-animate/',
+        src: ['*'],
+        dest: 'web/js/libs/velocity',
       }
      ]
    },

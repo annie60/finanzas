@@ -31,7 +31,8 @@ requirejs.config(
     'customElements': 'libs/webcomponents/custom-elements.min',
     'proj4': 'libs/proj4js/dist/proj4-src',
     'css': 'libs/require-css/css',
-    'md5': 'libs/blueimp-md5/md5'
+    'md5': 'libs/blueimp-md5/md5',
+    'velocity': 'libs/velocity/velocity.min'
   }
   //endinjector
   ,

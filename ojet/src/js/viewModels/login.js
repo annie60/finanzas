@@ -49,6 +49,9 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'md5','user'],
             user.sso(data[0].email);
             user.isAdmin(data[0].admin);
             user.building(data[0].building);
+            user.name(data[0].name);
+            user.apartment(data[0].department);
+            user.reference(data[0].reference);
             user.pending(data[0].pending);
             if ( user.isAdmin()) {
               self.router.configure({

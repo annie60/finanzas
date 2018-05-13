@@ -1,10 +1,32 @@
-
-define(['ojs/ojcore', 'knockout', 'jquery','user','utils/parse','ojs/ojmasonrylayout'],
- function(oj, ko, $, user,parse) {
+define(['ojs/ojcore', 'knockout', 'jquery', 'user', 'utils/parse', 'ojs/ojanimation'
+, 'ojs/ojavatar', 'ojs/ojmasonrylayout'],
+  function(oj, ko, $, user, parse) {
 
     function DashboardViewModel() {
       var self = this;
-      self.pending = ko.observable(parse.parseToCurrency(user.pending(),'MXN'));
+      self.pending = ko.observable(parse.parseToCurrency(user.pending(), 'MXN'));
+
+      self.user = user;
+      //Flipping card animation
+      self.showingFront = true;
+
+      self.cardClick = function() {
+        var elem = document.getElementById('animatable');
+
+        // Determine startAngle and endAngle
+        var startAngle = self.showingFront ? '0deg' : '180deg';
+        var endAngle = self.showingFront ? '180deg' : '0deg';
+
+        // Animate the element
+        oj.AnimationUtils['flipOut'](elem, {
+          'flipTarget': 'children',
+          'persist': 'all',
+          'startAngle': startAngle,
+          'endAngle': endAngle
+        });
+
+        self.showingFront = !self.showingFront;
+      };
       /**
        * Optional ViewModel method invoked when this ViewModel is about to be
        * used for the View transition.  The application can put data fetch logic

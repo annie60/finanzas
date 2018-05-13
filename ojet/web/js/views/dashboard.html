@@ -1,5 +1,4 @@
 <div class="oj-hybrid-padding">
-  <h1>Mis finanzas</h1>
   <div class="justifyCenter justifyCenterMasonryLayout">
     <oj-masonry-layout id="masonryLayout" class="templateList oj-masonrylayout oj-component oj-component-initnode oj-complete">
 
@@ -13,13 +12,45 @@
           </div>
         </div>
       </div>
+      <div id='Acerca' class="oj-masonrylayout-tile-1x1 oj-masonrylayout-tile">
+        <div id="animatable" class="container">
+
+          <!-- back face of card -->
+          <div class="cardface backside oj-animation-backface" data-bind="click: cardClick">
+            <div class="oj-flex-item oj-lg-12 tcrow">
+              <div class="theadcount">
+                <label data-bind='text: user.name'></label>
+              </div>
+              <div class="tnewhire">
+                <label data-bind="text: user.building()+' '+user.apartment()"></label>
+              </div>
+              <div class="ttermin">
+                <span>
+                  Referencia
+                </span>
+                <label style="font-size: 14px;" data-bind="text: user.reference"></label>
+              </div>
+            </div>
+          </div>
+
+          <!-- front face of card -->
+          <div class="cardface" data-bind="click: cardClick">
+            <div class="oj-flex oj-flex-items-pad acercatitle oj-margin-bottom">
+              Mis datos
+            </div>
+            <oj-avatar initials='[[user.initials]]' style="cursor:pointer;" title="Click para ver mas" size='md'></oj-avatar>
+          </div>
+
+        </div>
+
+      </div>
       <div id='Chequeo' class=" oj-masonrylayout-tile" data-bind="css: {'oj-masonrylayout-tile-1x2': $root.smScreen(),'oj-masonrylayout-tile-2x1':!$root.smScreen()}">
         <div class="oj-flex oj-flex-items-pad notifytitle oj-padding-bottom">
           Revisiones
         </div>
-        <div class="oj-flex" >
+        <div class="oj-flex">
           <div class="oj-flex-item oj-lg-6 oj-md-6 oj-sm-4 rate-icon">
-            <i data-bind="css:{'fa-3x': $root.smScreen(), 'fa-7x': ($root.lgScreen() || $root.mdScreen()) }" class="far fa-clock "></i>
+            <i data-bind="css:{'fa-3x': $root.smScreen(), 'fa-7x': !$root.smScreen() }" class="far fa-clock "></i>
           </div>
           <div class="oj-flex-item oj-lg-6 oj-md-6 oj-sm-4 avgrate-container">
             <div class="oj-flex oj-flex-items-pad performance-color">
@@ -37,6 +68,7 @@
           </div>
         </div>
       </div>
+
     </oj-masonry-layout>
   </div>
 </div>
