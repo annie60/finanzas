@@ -1,10 +1,62 @@
-<!--
- Copyright (c) 2014, 2017, Oracle and/or its affiliates.
- The Universal Permissive License (UPL), Version 1.0
- -->
 <div class="oj-hybrid-padding">
-  <h1>Customers Content Area</h1>
-  <div>
-      To change the content of this section, you will make edits to the customers.html file located in the /js/views folder.
+  <h1 data-bind="text: 'Gastos para edificio: '+ building()"> </h1>
+  <div class="justifyCenter justifyCenterMasonryLayout">
+    <oj-masonry-layout id="masonryLayout" class="templateList oj-masonrylayout oj-component oj-component-initnode oj-complete">
+
+      <div id='Desglose' class="oj-masonrylayout-tile" data-bind="css: {'oj-masonrylayout-tile-1x1': $root.smScreen(),'oj-masonrylayout-tile-2x1':!$root.smScreen()}">
+        <div class="oj-flex oj-flex-items-pad notifytitle">
+          Desglose de gastos
+        </div>
+        <div class="oj-flex oj-flex-items-pad compheight">
+          <div class="oj-flex-item oj-lg-4 oj-md-4 oj-sm-4 alignright">
+            Pintura
+          </div>
+          <div class="oj-flex-item oj-lg-2 oj-md-2 oj-sm-2 alignright fontbold">
+            $150
+          </div>
+          <div class="oj-flex-item oj-lg-6 oj-md-6 oj-sm-6 barstyle">
+            <span style="width: 100%; opacity: 1;"></span>
+          </div>
+        </div>
+        <div class="oj-flex oj-flex-items-pad compheight">
+          <div class="oj-flex-item oj-lg-4 oj-md-4 oj-sm-4 alignright">
+            Telefono
+          </div>
+          <div class="oj-flex-item oj-lg-2 oj-md-2 oj-sm-2 alignright fontbold">
+            $75
+          </div>
+          <div class="oj-flex-item oj-lg-6 oj-md-6 oj-sm-6 barstyle">
+            <span style="width: 50%; opacity: 0.5;"></span>
+          </div>
+        </div>
+        <div class="oj-flex oj-flex-items-pad compheight">
+          <div class="oj-flex-item oj-lg-4 oj-md-4 oj-sm-4 alignright">
+            Mantenimiento
+          </div>
+          <div class="oj-flex-item oj-lg-2 oj-md-2 oj-sm-2 alignright fontbold">
+            $20
+          </div>
+          <div class="oj-flex-item oj-lg-6 oj-md-6 oj-sm-6 barstyle">
+            <span style="width: 10%; opacity: 0.1;"></span>
+          </div>
+        </div>
+        <div class="oj-flex oj-sm-justify-content-center oj-md-justify-content-center oj-lg-justify-content-center notifycompensation">
+          Total de gastos: $145
+        </div>
+      </div>
+      <div id='DesgloseProm' class="oj-masonrylayout-tile" data-bind="css: {'oj-masonrylayout-tile-1x1': $root.smScreen(),'oj-masonrylayout-tile-2x1':!$root.smScreen()}">
+        <div class="oj-flex oj-flex-items-pad notifytitle">
+          Desglose promedio
+        </div>
+        <oj-chart id="pieChart"
+                type="pie"
+                series="[[pieSeriesValue]]"
+                animation-on-display="auto"
+                animation-on-data-change="auto"
+                hover-behavior="dim"
+                style="max-width:500px;width:100%;height:180px;">
+            </oj-chart>
+      </div>
   </div>
+</div>
 </div>

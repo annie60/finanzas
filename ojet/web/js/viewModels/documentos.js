@@ -1,18 +1,77 @@
-/**
- * Copyright (c) 2014, 2017, Oracle and/or its affiliates.
- * The Universal Permissive License (UPL), Version 1.0
- */
-/*
- * Your Documentos ViewModel code goes here
- */
-define(['ojs/ojcore', 'knockout', 'jquery'],
- function(oj, ko, $) {
+define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojarraydataprovider',
+    'ojs/ojlistview'
+  ],
+  function(oj, ko, $) {
 
     function DocumentosViewModel() {
       var self = this;
-      // Below are a subset of the ViewModel methods invoked by the ojModule binding
-      // Please reference the ojModule jsDoc for additional available methods.
+      const smQuery = oj.ResponsiveUtils.getFrameworkQuery(oj.ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY);
+      self.small = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(smQuery);
+      const data = [{
+        "id": "reg-1",
+        "name": "Reglamentos de condominos"
+      },
+      {
+        "id": "red-2",
+        "name": "Reglamentos de visitantes"
+      },
+      {
+        "id": "ava-1",
+        "name": "Avance de pintura"
+      }];
+      self.dataSource = new oj.ArrayDataProvider(data, {'idAttribute': 'id'});
+      self.layoutViewRadios = [{
+          "id": 'grid',
+          label: 'Cambiar a tabla',
+          icon: 'oj-component-icon  oj-fwk-icon-grid'
+        },
+        {
+          "id": 'list',
+          label: 'Cambiar a lista',
+          icon: 'oj-component-icon oj-fwk-icon-list'
+        }
+      ];
 
+      self.activeLayout = ko.observable("grid");
+      var listview;
+
+
+      //Button Set code
+      self.activeLayout.subscribe(function() {
+        listview = document.getElementById('listview');
+        $(listview).toggleClass("oj-listview-card-layout");
+        listview.refresh();
+      })
+
+      //Toggle Button code
+      self.switchLayout = function() {
+        if (self.activeLayout() === self.layoutViewRadios[0].id) {
+          self.activeLayout(self.layoutViewRadios[1].id);
+
+        } else {
+          self.activeLayout(self.layoutViewRadios[0].id);
+        }
+      };
+
+      self.buttonStyle = ko.computed(function() {
+        if (self.activeLayout() === 'list') {
+          return self.layoutViewRadios[0];
+        } else {
+          return self.layoutViewRadios[1];
+        }
+      }, this);
+
+      self.small.subscribe(function() {
+        listview = document.getElementById('listview');
+        listview.refresh();
+      });
+      self.selectTemplate = function(file, bindingContext) {
+        if (self.activeLayout() === 'grid') {
+          return self.small() ? 'sm_grid_template' : 'grid_template';
+        }
+        return 'std_template';
+
+      };
       /**
        * Optional ViewModel method invoked when this ViewModel is about to be
        * used for the View transition.  The application can put data fetch logic

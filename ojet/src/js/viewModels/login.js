@@ -1,53 +1,126 @@
-/**
- * Copyright (c) 2014, 2017, Oracle and/or its affiliates.
- * The Universal Permissive License (UPL), Version 1.0
- */
-/*
- * Your Login ViewModel code goes here
- */
-define(['ojs/ojcore', 'knockout', 'jquery','md5'],
- function(oj, ko, $, md5) {
+
+define(['ojs/ojcore', 'knockout', 'jquery', 'md5','user'],
+  function(oj, ko, $, md5,user) {
 
     function LoginViewModel() {
       var self = this;
       self.user = ko.observable();
       self.password = ko.observable();
       self.isValid = ko.observable(false);
-      self.login = ()=>{
+      self.isDisabled = ko.observable(false);
+
+      self.login = () => {
+        var rootViewModel = ko.dataFor(document.getElementById('mainContent'));
+        self.isValid(false);
+        self.isDisabled(true);
+        rootViewModel.isComplete(false);
+
         $.ajax({
           method: 'GET',
           url: `https://db-fin.herokuapp.com/user?email=${self.user()}&password=${md5(self.password())}`,
           error: () => {
             self.isValid(true);
+            self.isDisabled(false);
+            rootViewModel.isComplete(true);
           },
-          success: () => {
+          success: (data) => {
+            if(data.length === 0){
+              self.isValid(true);
+              self.isDisabled(false);
+              rootViewModel.isComplete(true);
+              return;
+            }
             self.router = oj.Router.rootInstance;
             self.router.configure({
-              'dashboard': {label: 'Dashboard', isDefault: true},
-              'egresos': {label: 'Egresos'},
-              'documentos': {label: 'Documentos'}
+              'dashboard': {
+                label: 'Dashboard',
+                isDefault: true
+              },
+              'egresos': {
+                label: 'Egresos',
+                value: 'egresos'
+              },
+              'documentos': {
+                label: 'Documentos',
+                value: 'documentos'
+              }
             });
-           // Navigation setup
-           var navData = [
-           {name: 'Dashboard', id: 'dashboard',
-            iconClass: 'oj-navigationlist-item-icon '},
-           {name: 'Egresos', id: 'egresos',
-            iconClass: 'oj-navigationlist-item-icon '},
-           {name: 'Documents', id: 'documentos',
-            iconClass: 'oj-navigationlist-item-icon '}
-           ];
-           // self.navDataSource = new oj.ArrayTableDataSource(navData, {idAttribute: 'id'});
-           var rootViewModel = ko.dataFor(document.getElementById('mainContent'));
-            rootViewModel.navDataSource.reset(navData, {idAttribute: 'id'});
+            var navData = [];
+            user.sso(data[0].email);
+            user.isAdmin(data[0].admin);
+            user.building(data[0].building);
+            user.pending(data[0].pending);
+            if ( user.isAdmin()) {
+              self.router.configure({
+                'egresos': {
+                  label: 'Egresos',
+                  value: 'egresos',
+                  isDefault: true
+                },
+                'ingresos': {
+                  label: 'Ingresos',
+                  value: 'ingresos'
+                },
+                'documentos': {
+                  label: 'Documentos',
+                  value: 'documentos'
+                }
+              });
+              // Navigation setup
+              navData= [
+                {
+                  name: 'Egresos',
+                  id: 'egresos',
+                  iconClass: 'oj-navigationlist-item-icon fas fa-money-bill-wave'
+                },
+                {
+                  name: 'Ingresos',
+                  id: 'ingresos',
+                  iconClass: 'oj-navigationlist-item-icon fas fa-piggy-bank'
+                },
+                {
+                  name: 'Documentos',
+                  id: 'documentos',
+                  iconClass: 'oj-navigationlist-item-icon far fa-file-alt'
+                }
+              ];
+            } else {
+
+              // Navigation setup
+              navData= [{
+                  name: 'Dashboard',
+                  id: 'dashboard',
+                  iconClass: 'oj-navigationlist-item-icon fas fa-chart-line'
+                },
+                {
+                  name: 'Egresos',
+                  id: 'egresos',
+                  iconClass: 'oj-navigationlist-item-icon fas fa-money-bill-wave'
+                },
+                {
+                  name: 'Documentos',
+                  id: 'documentos',
+                  iconClass: 'oj-navigationlist-item-icon far fa-file-alt'
+                }
+              ];
+            }
+
+            rootViewModel.navDataSource.reset(navData, {
+              idAttribute: 'id'
+            });
             rootViewModel.userLogin(self.user());
             rootViewModel.isLoggedIn(true);
+            rootViewModel.initials(user.initials());
+            rootViewModel.isComplete(true);
             self.user(null);
             self.password(null);
-           oj.Router.sync();
+            self.isDisabled(false);
+            oj.Router.sync();
           },
         });
 
       }
+
       /**
        * Optional ViewModel method invoked when this ViewModel is about to be
        * used for the View transition.  The application can put data fetch logic
@@ -60,7 +133,15 @@ define(['ojs/ojcore', 'knockout', 'jquery','md5'],
        * the promise is resolved
        */
       self.handleActivated = function(info) {
-
+        // const routerSyncPromise = oj.Router.sync().then(() => {
+        //   self.stateIdComp = ko.computed(() => {
+        //     if (self.router.stateId()) return self.router.currentValue(); else if (self.router.defaultStateId) {
+        //       return self.router.getState(self.router.defaultStateId).value;
+        //     } return self.router.states[0].value;
+        //   });
+        // });
+        //
+        // return routerSyncPromise;
       };
 
       /**

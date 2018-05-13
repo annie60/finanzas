@@ -84,7 +84,7 @@ html:not([dir="rtl"]) .oj-padding-start {padding-left: 10px; }
 html[dir="rtl"] .oj-padding-start {padding-right: 10px; }
 html:not([dir="rtl"]) .oj-padding-end {padding-right: 10px; }
 html[dir="rtl"] .oj-padding-end {padding-left: 10px; }
-@font-face {font-family: 'Alta Icon Font';src: url("fonts/JetFW_iconfont.woff") format("woff"); }
+@font-face {font-family: 'Alta Icon Font';src: url("alta/4.1.0/web/fonts/JetFW_iconfont.woff") format("woff"); }
 .oj-fwk-icon, .oj-panel-drag-icon, .oj-panel-expand-icon, .oj-panel-collapse-icon, .oj-panel-remove-icon, .oj-web-applayout-offcanvas-icon, .oj-component-icon, .oj-popup-tail.oj-popup-tail-simple {font-family: "Alta Icon Font";font-size: 16px;line-height: 1;display: inline-block;font-weight: normal;speak: none;font-style: normal;font-variant: normal;text-transform: none;color: #333333;text-align: center;-moz-box-sizing: content-box;box-sizing: content-box;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale; }
 .oj-fwk-icon:before, .oj-panel-drag-icon:before, .oj-panel-expand-icon:before, .oj-panel-collapse-icon:before, .oj-panel-remove-icon:before, .oj-web-applayout-offcanvas-icon:before,
 .oj-component-icon:before,.oj-popup-tail.oj-popup-tail-simple:before {display: inline-block; }
@@ -356,15 +356,15 @@ html[dir="rtl"] .oj-flex-bar-end {margin-right: auto; }
   .oj-lg-only-float-start {float: left; }
     html[dir="rtl"] .oj-lg-only-float-start {float: right; } }
   	/* added breakpoint for mobile landscape */
-@media screen 
-	and (max-width: 767px) 
+@media screen
+	and (max-width: 767px)
 	and (orientation : landscape) {
 		.oj-sm-pt-only-hide {display: none; }
 	.oj-sm-ls-show {display:block !important;} }
 @media screen and (max-width: 767px) {
   /* small only screen layout helpers */
   .oj-sm-only-hide {display: none; }
-  /* changes show to hide for mobile portrait */	
+  /* changes show to hide for mobile portrait */
 	.oj-sm-ls-show {display:none;}
   .oj-sm-only-text-align-end {text-align: right; }
     html[dir="rtl"] .oj-sm-only-text-align-end {text-align: left; }
@@ -379,11 +379,11 @@ html[dir="rtl"] .oj-flex-bar-end {margin-right: auto; }
   /* large only screen layout helpers */
   .oj-lg-only-hide {display: none; } }
 	/* retnia ipad in landscape */
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio: 2) { 
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio: 2) {
 .oj-tablet-land-hide {display: none;}
 /* STYLES GO HERE */}
 	/* retnia ipad in portrait */
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio: 2) { 
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio: 2) {
 .oj-tablet-port-hide {display: none;}}
 .oj-mq-sm-up {font-family: "/print, screen/"; }
 .oj-mq-md-up {font-family: "/print, screen and (min-width: 768px)/"; }

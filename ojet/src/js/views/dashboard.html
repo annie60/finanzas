@@ -1,10 +1,42 @@
-<!--
- Copyright (c) 2014, 2017, Oracle and/or its affiliates.
- The Universal Permissive License (UPL), Version 1.0
- -->
 <div class="oj-hybrid-padding">
-  <h1>Dashboard Content Area</h1>
-  <div>
-      To change the content of this section, you will make edits to the dashboard.html file located in the /js/views folder.
+  <h1>Mis finanzas</h1>
+  <div class="justifyCenter justifyCenterMasonryLayout">
+    <oj-masonry-layout id="masonryLayout" class="templateList oj-masonrylayout oj-component oj-component-initnode oj-complete">
+
+      <div id='Totales' class="oj-masonrylayout-tile-1x1 oj-masonrylayout-tile oj-lg-align-items-center">
+        <div class="oj-flex oj-flex-items-pad notifytitle">
+          Saldo pendiente
+        </div>
+        <div class="oj-flex-item oj-lg-12 tcrow">
+          <div style="font-size: 28px;color:white;">
+            <label data-bind="text: pending"></label>
+          </div>
+        </div>
+      </div>
+      <div id='Chequeo' class=" oj-masonrylayout-tile" data-bind="css: {'oj-masonrylayout-tile-1x2': $root.smScreen(),'oj-masonrylayout-tile-2x1':!$root.smScreen()}">
+        <div class="oj-flex oj-flex-items-pad notifytitle oj-padding-bottom">
+          Revisiones
+        </div>
+        <div class="oj-flex" >
+          <div class="oj-flex-item oj-lg-6 oj-md-6 oj-sm-4 rate-icon">
+            <i data-bind="css:{'fa-3x': $root.smScreen(), 'fa-7x': ($root.lgScreen() || $root.mdScreen()) }" class="far fa-clock "></i>
+          </div>
+          <div class="oj-flex-item oj-lg-6 oj-md-6 oj-sm-4 avgrate-container">
+            <div class="oj-flex oj-flex-items-pad performance-color">
+              3:30 p.m
+            </div>
+            <div class="oj-flex oj-flex-items-pad">
+              Ultima actualización
+            </div>
+            <div class="oj-flex oj-flex-items-pad potential-color">
+              8:00 p.m
+            </div>
+            <div class="oj-flex oj-flex-items-pad">
+              Siguiente actualización
+            </div>
+          </div>
+        </div>
+      </div>
+    </oj-masonry-layout>
   </div>
 </div>

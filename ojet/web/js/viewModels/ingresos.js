@@ -1,10 +1,15 @@
+/**
+ * Copyright (c) 2014, 2017, Oracle and/or its affiliates.
+ * The Universal Permissive License (UPL), Version 1.0
+ */
 
-define(['ojs/ojcore', 'knockout', 'jquery','user','utils/parse','ojs/ojmasonrylayout'],
- function(oj, ko, $, user,parse) {
+define(['ojs/ojcore', 'knockout', 'jquery', 'md5','user'],
+  function(oj, ko, $, md5,user) {
 
-    function DashboardViewModel() {
+    function IncomeViewModel() {
       var self = this;
-      self.pending = ko.observable(parse.parseToCurrency(user.pending(),'MXN'));
+
+
       /**
        * Optional ViewModel method invoked when this ViewModel is about to be
        * used for the View transition.  The application can put data fetch logic
@@ -64,6 +69,6 @@ define(['ojs/ojcore', 'knockout', 'jquery','user','utils/parse','ojs/ojmasonryla
      * each time the view is displayed.  Return an instance of the ViewModel if
      * only one instance of the ViewModel is needed.
      */
-    return new DashboardViewModel();
+    return new IncomeViewModel();
   }
 );

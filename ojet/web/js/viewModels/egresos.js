@@ -1,18 +1,18 @@
-/**
- * Copyright (c) 2014, 2017, Oracle and/or its affiliates.
- * The Universal Permissive License (UPL), Version 1.0
- */
-/*
- * Your Egresos ViewModel code goes here
- */
-define(['ojs/ojcore', 'knockout', 'jquery'],
- function(oj, ko, $) {
+
+define(['ojs/ojcore', 'knockout', 'jquery','user','ojs/ojchart'],
+ function(oj, ko, $, user) {
 
     function EgresosViewModel() {
       var self = this;
-      // Below are a subset of the ViewModel methods invoked by the ojModule binding
-      // Please reference the ojModule jsDoc for additional available methods.
+      self.building = ko.observable(user.building());
 
+      var pieSeries = [{name: "Series 1", items: [42]},
+                         {name: "Series 2", items: [55]},
+                         {name: "Series 3", items: [36]},
+                         {name: "Series 4", items: [10]},
+                         {name: "Series 5", items: [5]}];
+
+        this.pieSeriesValue = ko.observableArray(pieSeries);
       /**
        * Optional ViewModel method invoked when this ViewModel is about to be
        * used for the View transition.  The application can put data fetch logic

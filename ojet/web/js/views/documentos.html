@@ -1,10 +1,55 @@
-<!--
- Copyright (c) 2014, 2017, Oracle and/or its affiliates.
- The Universal Permissive License (UPL), Version 1.0
- -->
-<div class="oj-hybrid-padding">
-  <h1>Incidents Content Area</h1>
-  <div>
-      To change the content of this section, you will make edits to the incidents.html file located in the /js/views folder.
+<div class="oj-sm-web-padding-horizontal oj-sm-web-padding-top">
+  <div class="oj-flex-bar demo-header-bar">
+    <div class="oj-flex-bar-end ">
+      <oj-buttonset-one class="oj-sm-only-hide" value="{{activeLayout}}" chroming="half" display="icons" aria-label="Choose layout view.">
+        <!-- ko foreach: layoutViewRadios -->
+        <oj-option value="[[id]]" class="demo-button-margin">
+          <span slot="startIcon" data-bind="css: icon"></span>
+          <span data-bind="text: label"></span>
+        </oj-option>
+        <!-- /ko -->
+      </oj-buttonset-one>
+      <oj-button class="oj-sm-align-self-center oj-md-hide" on-click="[[switchLayout]]" chroming="half" display="icons">
+        <span slot="startIcon" data-bind="css: buttonStyle().icon"></span>
+        <span data-bind="text: buttonStyle().label"></span>
+      </oj-button>
+    </div>
   </div>
 </div>
+<div role="main" class="oj-md-web-padding-horizontal">
+  <oj-list-view id="listview" class="oj-listview-card-layout" aria-label="lista con vista de cartas" data="[[dataSource]]" data-bind="css:$root.smScreen() ? 'oj-full-width' : ''" item.renderer="[[oj.KnockoutTemplateUtils.getRenderer(selectTemplate, true)]]"
+    drill-mode="none">
+  </oj-list-view>
+</div>
+
+<script type="text/html" id="sm_grid_template">
+  <li data-bind="attr: {id: id}" style="width:120px" >
+    <div style="text-align:center" data-bind="text: name">
+    </div>
+    <oj-button chroming='half' title="Descargar"><i class="fas fa-download" style="color:#3d518c;" /></oj-button>
+  </li>
+</script>
+
+<script type="text/html" id="grid_template">
+  <li data-bind="attr: {id: id}" >
+    <div style="text-align:center" data-bind="text: name">
+    </div>
+    <oj-button chroming='half' title="Descargar"><i class="fas fa-download" style="color:#3d518c;" /></oj-button>
+  </li>
+</script>
+
+<script type="text/html" id="std_template">
+  <li data-bind="attr: {id: id}">
+    <div class="oj-flex oj-lg-justify-content-start oj-sm-align-items-center oj-lg-align-items-center">
+      <div class="oj-flex-item oj-md-2" style="max-width:70px;padding:0">
+        <i class='fas fa-file fa-2x' style="color:#0072bb"></i>
+      </div>
+      <div class="oj-flex-item oj-sm-6 oj-md-8">
+        <span data-bind="text: name"></span>
+      </div>
+      <div class="oj-flex-item oj-md-2">
+        <oj-button chroming='half' title="Descargar"><i class="fas fa-download fa-2x" style="color:#3d518c;" /></oj-button>
+      </div>
+    </div>
+  </li>
+</script>

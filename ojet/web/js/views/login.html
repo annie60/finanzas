@@ -45,7 +45,7 @@
 
 <div class="mobileLSname">
 <div class="PtM">Gestión de finanzas</div>
-<div class="OtM">Cloud</div></div>
+<div class="OtM">Aasser</div></div>
 
 <div class="MobileLSForm" >
 	<form action="" method="post" name="signin_form">
@@ -54,13 +54,9 @@
 <div class="oj-flex oj-sm-6 oj-sm-flex-direction-column">
 <div class="oj-flex-item" style="padding-left:40px;padding-bottom:10px;"><input id="MobileLSUsername" name="username" data-bind="value:user" class="textInput" type="text" placeholder="Usuario" style="width:253px" title="Usuario" /></div>
 <div class="oj-flex-item" style="padding-left:40px;"><input id="MobileLSPassword" name="password" class="textInput" data-bind="value:password" placeholder="Contraseña" title="Contraseña" style="width:253px"/></div>
-<div class="oj-flex-item" style="padding-left:40px;margin-top:20px;margin-bottom:20px;"><button id="signIn" data-bind="click:login" style="margin-right:20px;">Entrar</button></div>
+<div class="oj-flex-item" style="padding-left:40px;margin-top:20px;margin-bottom:20px;"><button id="signIn" data-bind="click:login, disable: isDisabled()" style="margin-right:20px;">Entrar</button></div>
 </div>
 
-<div class="oj-flex oj-sm-6 oj-sm-flex-direction-column">
-<div class="oj-flex-item" style="padding-left:78px;"><a href="forgot.html" style="font-size:18px;">¿No puede Entrar?</a></div>
-<div class="oj-flex-item" ></div>
- </div>
 
 </div>
 </form>
@@ -89,7 +85,7 @@
 
 <div style="position:absolute;top:200px;left:30px;">
 <div class="PtM">Gestión de finanzas</div>
-<div class="OtM">Cloud</div></div>
+<div class="OtM">Aasser</div></div>
 
 <div class="mobilePToracle"><img src="img/OracleLogoBLK.png" width="87" height="11" alt="Oracle Logo"/></div>
 </div>
@@ -102,8 +98,7 @@
 <div class="oj-sm-12 oj-flex-item" style="height:32px;padding-left:24px;padding-top:11px;"><span class="errormsgM" style="display:none;">Usuario o constraseña incorrecto</span></div>
 <div class="oj-sm-12 oj-flex-item" style="padding-left:24px;padding-bottom:10px;"><input id="MobilePTUsername" name="usernameM" class="textInputM" placeholder="Usuario" data-bind="value:user" type="text" title="Usuario"/></div>
 <div class="oj-sm-12 oj-flex-item" style="padding-left:24px;padding-bottom:20px;"><input id="MobilePTPassword" type="password" name="passwordM" class="textInputM"  placeholder="Contraseña" data-bind="value:password" title="Contraseña"/></div>
-<div class="oj-sm-12 oj-flex-item" style="padding-left:24px;margin-bottom:22px;"><button class="mobile" data-bind="click:login" style="margin-right:20px;height:42px">Entrar</button>
-    <a href="forgot.html" class="forgotLinkM"> ¿No puede Entrar?</a></div>
+<div class="oj-sm-12 oj-flex-item" style="padding-left:24px;margin-bottom:22px;"><button class="mobile" data-bind="click:login,disable: isDisabled()" style="margin-right:20px;height:42px">Entrar</button></div>
 
 
 </form>
@@ -126,7 +121,7 @@
 
 <!-- logo and product name -->
  <div class="TabPTGlass slideTabletLS" style="z-index:10;">
- <div class="circlelogoborderPT"><div class="circlelogo"><img class="Absolute-Center" src="img/cloud_w_128.png" width="74" height="74" alt=""/></div></div> <div class="TabletPTPt">Gestión de finanzas</div><div class="TabletPTOt">Cloud Service</div></div>
+ <div class="circlelogoborderPT"><div class="circlelogo"><img class="Absolute-Center" src="img/cloud_w_128.png" width="74" height="74" alt=""/></div></div> <div class="TabletPTPt">Gestión de finanzas</div><div class="TabletPTOt">Aasser</div></div>
  <div class="LogoBlkLGPT"><img src="img/OracleLogoBLK.png" width="137" height="17"  alt="Oracle Logo"/></div>
 
 <div class="TabletPTBlr oj-lg-hide blurrbg fadeUp3" style="clip:rect(0px, 502px, 1023px, 0px);opacity:0.0;z-index:9;"></div>
@@ -144,7 +139,7 @@
  <div class="GlassPane slideTabletLS">
  <div class="circlelogoborder"><div class="circlelogo"><img class="Absolute-Center" src="img/cloud_w_128.png" width="74" height="74" alt=""/></div></div>
  <div class="Pt">Gestión de finanzas</div>
-<div class="Ot">Cloud</div>
+<div class="Ot">Aasser</div>
 </div>
 
 <!-- Desktop blured background area lg size-->
@@ -170,7 +165,7 @@
 <div class="GlassPane">
 <div class="circlelogoborder"><div class="circlelogo"><img class="Absolute-Center" src="img/cloud_w_128.png" width="74" height="74" alt=""/></div></div>
 <div class="Pt">Gestión de finanzas</div>
-<div class="Ot">Cloud</div>
+<div class="Ot">Aasser</div>
 
 </div>
 
@@ -186,8 +181,8 @@
 <div class="oj-md-12 oj-lg-12 oj-xl-12 oj-flex-item" style="padding-left:40px;padding-bottom:10px;"><input id="DesktopUsername" name="username" class="textInput" data-bind="value:user" type="text" placeholder="Usuario" title="Usuario" style="width:60%" /></div>
 <div class="oj-md-12 oj-lg-12 oj-xl-12 oj-flex-item" style="padding-left:40px;"><input id="DesktopPassword" name="password" class="textInput" type="password" data-bind="value:password" placeholder="Contraseña" title="Contraseña" style="width:60%" /></div>
 <div class="oj-md-12 oj-lg-12 oj-xl-12 oj-flex-item" style="padding-left:40px;margin-top:20px;margin-bottom:20px;">
-<button id="signInDesktop" data-bind="click:login" style="margin-right:20px;">Entrar</button>
-<a href="forgot.html" style="font-size:14px;">¿No puede Entrar?</a></div>
+<button id="signInDesktop" data-bind="click:login, disable: isDisabled()" style="margin-right:20px;">Entrar</button>
+</div>
 
 </div>
 </form>

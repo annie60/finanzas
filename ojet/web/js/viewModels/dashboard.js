@@ -1,18 +1,10 @@
-/**
- * Copyright (c) 2014, 2017, Oracle and/or its affiliates.
- * The Universal Permissive License (UPL), Version 1.0
- */
-/*
- * Your dashboard ViewModel code goes here
- */
-define(['ojs/ojcore', 'knockout', 'jquery'],
- function(oj, ko, $) {
+
+define(['ojs/ojcore', 'knockout', 'jquery','user','utils/parse','ojs/ojmasonrylayout'],
+ function(oj, ko, $, user,parse) {
 
     function DashboardViewModel() {
       var self = this;
-      // Below are a subset of the ViewModel methods invoked by the ojModule binding
-      // Please reference the ojModule jsDoc for additional available methods.
-
+      self.pending = ko.observable(parse.parseToCurrency(user.pending(),'MXN'));
       /**
        * Optional ViewModel method invoked when this ViewModel is about to be
        * used for the View transition.  The application can put data fetch logic
@@ -25,7 +17,7 @@ define(['ojs/ojcore', 'knockout', 'jquery'],
        * the promise is resolved
        */
       self.handleActivated = function(info) {
-        
+
       };
 
       /**
