@@ -1,4 +1,4 @@
-<div class="oj-hybrid-padding">
+<div class="oj-hybrid-padding" data-bind='visible: !user.isAdmin()'>
   <h1 data-bind="text: 'Gastos para edificio: '+ building()"> </h1>
   <div class="justifyCenter justifyCenterMasonryLayout">
     <oj-masonry-layout id="masonryLayout" class="templateList oj-masonrylayout oj-component oj-component-initnode oj-complete">
@@ -48,15 +48,94 @@
         <div class="oj-flex oj-flex-items-pad notifytitle">
           Desglose promedio
         </div>
-        <oj-chart id="pieChart"
-                type="pie"
-                series="[[pieSeriesValue]]"
-                animation-on-display="auto"
-                animation-on-data-change="auto"
-                hover-behavior="dim"
-                style="max-width:500px;width:100%;height:180px;">
-            </oj-chart>
+        <oj-chart id="pieChart" type="pie" series="[[pieSeriesValue]]" animation-on-display="auto" animation-on-data-change="auto" hover-behavior="dim" style="max-width:500px;width:100%;height:180px;">
+        </oj-chart>
       </div>
   </div>
 </div>
+<div class="oj-hybrid-padding" data-bind="visible: user.isAdmin()">
+  <div id="mainContent" class="oj-flex oj-lg-justify-content-center oj-margin">
+    <div class="oj-flex-item oj-margin">
+    <span> (Click en egreso para editar)</span>
+    </div>
+    <oj-table id="table" data="[[datasource]]" class="oj-flex-item oj-margin oj-lg-10" columns='[{"headerText": "", "id": "column1", "sortable": "disabled"},
+                    {"headerText": "Categoria",
+                     "field": "to", "sortable": "enabled"},
+                    {"headerText": "Egreso",
+                     "field": "quantity", "sortable": "enabled"}]'
+                     selectionMode='{"row": "none", "column": "none"}'
+                     row-renderer='[[oj.KnockoutTemplateUtils.getRenderer("row_tmpl", true)]]'>
+    </oj-table>
+
+    <div class='oj-flex-item oj-margin oj-lg-10'>
+    <oj-button id="delete_btn" data-bind="visible: somethingChecked(),click: deleteOutcome" chroming='half'>
+      Eliminar gasto<span slot='startIcon' class="fas fa-trash-alt fa-2x"></span>
+    </oj-button>
+    </div>
+    <oj-dialog id="editDialog" style="display:none" title="Cambiar cantidad" drag-affordance="title-bar" modality="modeless" resize-behavior="none">
+      <div slot="header" class="oj-helper-clearfix" aria-labelledby="dialog-title-id">
+        <div>
+          <span id="dialog-title-id" class="oj-dialog-title">Editar cantidad</span>
+        </div>
+      </div>
+      <div slot="body">
+        <div class="oj-md-odd-cols-4">
+          <oj-label for="newName" class="oj-label">Cantidad de egreso</oj-label>
+          <oj-input-number id="newName" value="{{currentQuantity}}"></oj-input-number>
+        </div>
+      </div>
+      <div slot="footer">
+        <oj-button id="submitBtn" chroming='half' on-oj-action="[[updateQuantity]]">Cambiar
+          <span slot='startIcon' class="fas fa-edit"></span></oj-button>
+      </div>
+    </oj-dialog>
+  </div>
+  <div class="oj-flex oj-lg-justify-content-center" style="border-top:1px solid;">
+    <div class='oj-flex-item oj-lg-12 oj-padding' style="text-align: center;"><h5>Agregar nuevo gasto</h5></div>
+    <oj-form-layout label-edge="start" id="form-container" max-columns='{{maxColumns}}'>
+      <div class="oj-flex-item">
+        <oj-label show-required='true' for="combobox">Edificio</oj-label>
+        <oj-combobox-one id="combobox" style="max-width:20em" on-value-changed="[[valueChange]]" required>
+          <!-- ko foreach: buildings -->
+          <oj-option value="[[id]]"><span data-bind="text: name"></span></oj-option>
+          <!-- /ko -->
+        </oj-combobox-one>
+      </div>
+
+      <div class="oj-flex-item" id='divCat' style="display: none;">
+        <oj-label for="comboboxCat">Categorias</oj-label>
+        <oj-combobox-one id="comboboxCat" style="max-width:20em" options="[[categories]]" on-value-changed='[[selectCategory]]' converter='{
+                          "type": "number",
+                          "options": {
+                            "style":"currency",
+                            "currency":"MXN",
+                            "currencyDisplay":"symbol"}}'>
+        </oj-combobox-one>
+      </div>
+      <div class="oj-flex-item" id='divQuantity' style="display: none;">
+        <oj-label show-required='true' for="comboboxCat">Total egresado</oj-label>
+        <oj-input-number required min='1' value='{{inputValue}}'></oj-input-number>
+      </div>
+      <div class="oj-flex-item" id='divButton' style="display: none; text-align: center;">
+        <oj-button display='icons' chroming='half' data-bind='click:submit'>
+          <span slot='startIcon' class="fas fa-check-circle fa-2x"></span>
+        </oj-button>
+      </div>
+    </oj-form-layout>
+  </div>
 </div>
+<script type="text/html" id="row_tmpl">
+  <tr>
+    <td>
+      <oj-checkboxset aria-hidden='true' on-value-changed="[[$parent.enableDelete]]" class='oj-checkboxset-no-chrome'>
+        <oj-option data-bind="attr:{id: id}" value="[[id]]"></oj-option>
+      </oj-checkboxset>
+    </td>
+    <td>
+      <div id='name' data-bind="text: to, click: function(data, event){$parent.showChangeNameDialog(id,data,event)}"></div>
+    </td>
+    <td>
+      <div id="quantity" data-bind="text: quantity, click: function(data, event){$parent.showChangeNameDialog(id,data,event)}"></div>
+    </td>
+  </tr>
+</script>

@@ -31,24 +31,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'md5','user'],
               return;
             }
             self.router = oj.Router.rootInstance;
-            self.router.configure({
-              'dashboard': {
-                label: 'Dashboard',
-                isDefault: true
-              },
-              'egresos': {
-                label: 'Egresos',
-                value: 'egresos'
-              },
-              'ingresos': {
-                label: 'Ingresos',
-                value: 'ingresos'
-              },
-              'documentos': {
-                label: 'Documentos',
-                value: 'documentos'
-              }
-            });
+
             var navData = [];
             user.sso(data[0].email);
             user.isAdmin(data[0].admin);
@@ -58,6 +41,21 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'md5','user'],
             user.reference(data[0].reference);
             user.pending(data[0].pending);
             if (user.isAdmin()) {
+              self.router.configure({
+                'egresos': {
+                  label: 'Egresos',
+                  value: 'egresos',
+                  isDefault: true
+                },
+                'ingresos': {
+                  label: 'Ingresos',
+                  value: 'ingresos'
+                },
+                'documentos': {
+                  label: 'Documentos',
+                  value: 'documentos'
+                }
+              });
               // Navigation setup
               navData= [
                 {
@@ -77,7 +75,24 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'md5','user'],
                 }
               ];
             } else {
-
+              self.router.configure({
+                'dashboard': {
+                  label: 'Dashboard',
+                  isDefault: true
+                },
+                'egresos': {
+                  label: 'Egresos',
+                  value: 'egresos'
+                },
+                'ingresos': {
+                  label: 'Ingresos',
+                  value: 'ingresos'
+                },
+                'documentos': {
+                  label: 'Documentos',
+                  value: 'documentos'
+                }
+              });
               // Navigation setup
               navData= [{
                   name: 'Dashboard',
@@ -103,11 +118,11 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'md5','user'],
             rootViewModel.userLogin(self.user());
             rootViewModel.isLoggedIn(true);
             rootViewModel.initials(user.initials());
-            rootViewModel.isComplete(true);
             self.user(null);
             self.password(null);
             self.isDisabled(false);
             oj.Router.sync();
+            rootViewModel.isComplete(true);
           },
         });
 
@@ -125,15 +140,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'md5','user'],
        * the promise is resolved
        */
       self.handleActivated = function(info) {
-        // const routerSyncPromise = oj.Router.sync().then(() => {
-        //   self.stateIdComp = ko.computed(() => {
-        //     if (self.router.stateId()) return self.router.currentValue(); else if (self.router.defaultStateId) {
-        //       return self.router.getState(self.router.defaultStateId).value;
-        //     } return self.router.states[0].value;
-        //   });
-        // });
-        //
-        // return routerSyncPromise;
       };
 
       /**

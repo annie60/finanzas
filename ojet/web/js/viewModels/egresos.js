@@ -1,18 +1,185 @@
-
-define(['ojs/ojcore', 'knockout', 'jquery','user','ojs/ojchart'],
- function(oj, ko, $, user) {
+define(['ojs/ojcore', 'knockout', 'jquery', 'user', 'ojs/ojchart',
+    'velocity', 'ojs/ojselectcombobox',
+    'ojs/ojtable', 'ojs/ojcheckboxset', 'ojs/ojdialog', 'ojs/ojinputnumber',
+    'ojs/ojarraydataprovider'
+  ],
+  function(oj, ko, $, user) {
 
     function EgresosViewModel() {
       var self = this;
       self.building = ko.observable(user.building());
+      self.user = user;
+      var pieSeries = [{
+          name: "Series 1",
+          items: [42]
+        },
+        {
+          name: "Series 2",
+          items: [55]
+        },
+        {
+          name: "Series 3",
+          items: [36]
+        },
+        {
+          name: "Series 4",
+          items: [10]
+        },
+        {
+          name: "Series 5",
+          items: [5]
+        }
+      ];
 
-      var pieSeries = [{name: "Series 1", items: [42]},
-                         {name: "Series 2", items: [55]},
-                         {name: "Series 3", items: [36]},
-                         {name: "Series 4", items: [10]},
-                         {name: "Series 5", items: [5]}];
+      this.pieSeriesValue = ko.observableArray(pieSeries);
+      self.categories = ko.observableArray([]);
+      self.buildings = ko.observableArray([]);
+      self.selectedBuilding = ko.observable();
+      self.selectedCategory = ko.observable();
+      self.currentQuantity = ko.observable(0);
+      self.inputValue = ko.observable(0);
+      self.datasource = ko.observable();
+      self.workingId = ko.observable();
+      self.somethingChecked = ko.observable(false);
 
-        this.pieSeriesValue = ko.observableArray(pieSeries);
+      self.submit = () => {
+        const newQuantity = self.inputValue();
+        const response = {
+          to: `${self.selectedCategory().name}`,
+          quantity: newQuantity
+        };
+        const promise = $.ajax({
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(response),
+          url: `https://db-fin.herokuapp.com/outcomes/${self.selectedCategory().id}`,
+          error: () => {
+
+          },
+          success: (data) => {
+            self.selectCategory(null);
+            self.selectedBuilding(null);
+          }
+        });
+        return promise
+      };
+
+      self.valueChange = (valueParam) => {
+        valueParam = valueParam['detail'];
+        const currentValue = valueParam.value;
+        if (valueParam.previousValue !== currentValue) {
+          let building = self.buildings().filter(element => element.id = currentValue);
+          if (building.length > 0) {
+            self.selectedBuilding(building[0].name);
+            //In mapfields, use "id" as key
+            //map "name" to "label" and "id" to "value"
+            var mapFields = function(item) {
+              var data = item['data'];
+              var mappedItem = {};
+              mappedItem['data'] = {};
+              mappedItem['data']['label'] = data.name;
+              mappedItem['data']['value'] = data.id;
+              mappedItem['metadata'] = {
+                'key': data['id']
+              };
+
+              return mappedItem;
+            };
+            var dataMapping = {
+              'mapFields': mapFields
+            };
+
+            //create an ArrayDataProvider using 'id' as idAttribute
+            var arrayDataProvider = new oj.ArrayDataProvider(building[0].categoriesIncome, {
+              idAttribute: 'id'
+            });
+
+            self.categories(new oj.ListDataProviderView(arrayDataProvider, {
+              'dataMapping': dataMapping
+            }));
+            $('#divCat').velocity("slideDown", {
+              delay: 100,
+              duration: 1200
+            });
+          } else {
+            self.categories([]);
+            $('#divCat').velocity("slideUp", {
+              duration: 200
+            });
+          }
+        }
+
+      };
+      // Update handlers/helpers
+      self.showChangeNameDialog = (catId, data, event) => {
+        const currQuantity = data.quantity;
+        self.workingId(catId);
+        self.currentQuantity(currQuantity);
+        document.getElementById("editDialog").open();
+      }
+
+      self.cancelDialog = () => {
+        document.getElementById("editDialog").close();
+        return true;
+      };
+      self.updateQuantity = function(event) {
+        var currentId = self.workingId();
+        var newName = self.currentQuantity();
+
+        document.getElementById("editDialog").close();
+
+      };
+      // Delete handler
+      self.deleteOutcome = () => {
+
+      }
+      self.enableDelete = function(event) {
+        self.somethingChecked(event && event.target && event.target.value && event.target.value.length);
+      };
+      self.selectCategory = (param) => {
+        param = param.detail;
+        if (param.value) {
+          const promise = $.ajax({
+            method: 'GET',
+            url: `https://db-fin.herokuapp.com/building?name=${self.selectedBuilding()}`,
+            error: () => {
+
+            },
+            success: (data) => {
+              if (data.length > 0) {
+                const receivedCategories = data[0].categoriesOutcome;
+                let filteredCategory = receivedCategories.filter(element => element.id === param.value);
+                self.selectedCategory(filteredCategory[0]);
+                self.inputValue(filteredCategory[0].quantity);
+                $('#divQuantity').velocity("slideDown", {
+                  delay: 100,
+                  duration: 1200
+                });
+                $('#divButton').velocity("slideDown", {
+                  delay: 100,
+                  duration: 1200
+                });
+              } else {
+                $('#divQuantity').velocity("slideUp", {
+                  duration: 200
+                });
+                $('#divButton').velocity("slideUp", {
+                  duration: 200
+                });
+              }
+
+            }
+          });
+          return promise;
+        } else {
+          $('#divQuantity').velocity("slideUp", {
+            duration: 200
+          });
+          $('#divButton').velocity("slideUp", {
+            duration: 200
+          });
+        }
+      };
       /**
        * Optional ViewModel method invoked when this ViewModel is about to be
        * used for the View transition.  The application can put data fetch logic
@@ -25,7 +192,35 @@ define(['ojs/ojcore', 'knockout', 'jquery','user','ojs/ojchart'],
        * the promise is resolved
        */
       self.handleActivated = function(info) {
-        // Implement if needed
+        if (user.isAdmin()) {
+          var promises = [];
+          const promise = $.ajax({
+            method: 'GET',
+            url: `https://db-fin.herokuapp.com/building`,
+            error: () => {
+
+            },
+            success: (data) => {
+              self.buildings(data);
+            }
+          });
+          promises.push(promise);
+          const secondPromise = $.ajax({
+            method: 'GET',
+            url: `https://db-fin.herokuapp.com/outcomes`,
+            error: () => {
+
+            },
+            success: (data) => {
+              self.datasource(new oj.ArrayDataProvider(data, {
+                idAttribute: 'id'
+              }));
+            }
+          });
+          return promise;
+        } else {
+
+        }
       };
 
       /**
