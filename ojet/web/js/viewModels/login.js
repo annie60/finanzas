@@ -54,6 +54,10 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'md5','user'],
                 'documentos': {
                   label: 'Documentos',
                   value: 'documentos'
+                },
+                'administracion': {
+                  label: 'Admin',
+                  value: 'administracion'
                 }
               });
               // Navigation setup
@@ -72,6 +76,11 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'md5','user'],
                   name: 'Documentos',
                   id: 'documentos',
                   iconClass: 'oj-navigationlist-item-icon far fa-file-alt'
+                },
+                {
+                  name: 'Admin',
+                  id: 'administracion',
+                  iconClass: 'oj-navigationlist-item-icon fas fa-cogs'
                 }
               ];
             } else {

@@ -1,0 +1,156 @@
+<div class="oj-hybrid-padding" data-bind="visible: user.isAdmin()">
+  <div id="mainContent" class="oj-flex oj-lg-justify-content-center oj-margin">
+    <oj-accordion id="accordionPage" style="width:100%">
+      <oj-collapsible id="c1">
+        <span slot="header"><span><span class="fas fa-users"></span> Usuarios</span>
+        </span>
+        <oj-table id="table" data="[[datasourceUsers]]" class="oj-flex-item oj-margin oj-lg-10"
+        columns='[{"headerText": "", "field": "id", "sortable": "disabled"},
+                    {"headerText": "Nombre",
+                     "field": "name", "sortable": "enabled"},
+                    {"headerText": "Email",
+                     "field": "email", "sortable": "enabled"},
+                     {"headerText": "Edificio", "field": "building"},
+                      {"headerText": "Departamento", "field": "department"},
+                      {"headerText": "Es admin", "field": "admin"}]' selectionMode='{"row": "none", "column": "none"}' row-renderer='[[oj.KnockoutTemplateUtils.getRenderer("row_tmpl", true)]]'>
+        </oj-table>
+
+        <div class='oj-flex-item oj-margin oj-lg-10'>
+          <oj-button id="delete_btn" data-bind="visible: somethingChecked(),click: deleteOutcome" chroming='half'>
+            Eliminar usuario<span slot='startIcon' class="fas fa-trash-alt fa-2x"></span>
+          </oj-button>
+        </div>
+        <oj-dialog id="editDialog" style="display:none" title="Editar usuario" drag-affordance="title-bar" modality="modeless" resize-behavior="none">
+          <div slot="header" class="oj-helper-clearfix" aria-labelledby="dialog-title-id">
+            <div>
+              <span id="dialog-title-id" class="oj-dialog-title">Editar usuario</span>
+            </div>
+          </div>
+          <div slot="body">
+            <div class="oj-md-odd-cols-4">
+              <oj-label for="newName" class="oj-label">Nombre de usuario</oj-label>
+              <oj-input-text id="newName" value="{{currentUser}}"></oj-input-text>
+            </div>
+          </div>
+          <div slot="footer">
+            <oj-button id="submitBtn" chroming='half' on-oj-action="[[updateUser]]">Cambiar
+              <span slot='startIcon' class="fas fa-edit"></span></oj-button>
+          </div>
+        </oj-dialog>
+      </oj-collapsible>
+      <oj-collapsible id="c2">
+        <span slot="header"><span><span class="fas fa-building"></span> Edificios</span>
+        </span>
+        <oj-table id="table" data="[[datasourceBuildings]]" class="oj-flex-item oj-margin oj-lg-10"
+        columns='[{"headerText": "", "field": "id", "sortable": "disabled"},
+                    {"headerText": "Nombre",
+                     "field": "name", "sortable": "enabled"},
+                     {"headerText": "Horarios de revision",
+                      "field": "updates","sortable":"disabled"}]'
+                     selectionMode='{"row": "none", "column": "none"}'
+                     row-renderer='[[oj.KnockoutTemplateUtils.getRenderer("row_tmplB", true)]]'>
+        </oj-table>
+
+        <div class='oj-flex-item oj-margin oj-lg-10'>
+          <oj-button id="delete_btn" data-bind="visible: somethingChecked(),click: deleteOutcome" chroming='half'>
+            Eliminar Edificio<span slot='startIcon' class="fas fa-trash-alt fa-2x"></span>
+          </oj-button>
+        </div>
+        <oj-dialog id="editDialogB" style="display:none" title="Editar Edificio" drag-affordance="title-bar" modality="modeless" resize-behavior="none">
+          <div slot="header" class="oj-helper-clearfix" aria-labelledby="dialog-title-id">
+            <div>
+              <span id="dialog-title-id" class="oj-dialog-title">Editar edificio</span>
+            </div>
+          </div>
+          <div slot="body">
+            <div class="oj-md-odd-cols-4">
+              <oj-label for="newName" class="oj-label">Nombre de edificio</oj-label>
+              <oj-input-text id="newName" value="{{currentBuilding}}"></oj-input-text>
+            </div>
+          </div>
+          <div slot="footer">
+            <oj-button id="submitBtn" chroming='half' on-oj-action="[[updateBuilding]]">Cambiar
+              <span slot='startIcon' class="fas fa-edit"></span></oj-button>
+          </div>
+        </oj-dialog>
+      </oj-collapsible>
+    </oj-accordion>
+  </div>
+  <!-- ko if: currentSection -->
+  <div class="oj-flex oj-lg-justify-content-center" style="border-top:1px solid;">
+    <div class='oj-flex-item oj-lg-12 oj-padding' style="text-align: center;">
+      <h5 data-bind="text:currentSection"></h5></div>
+    <oj-form-layout label-edge="start" id="form-container" max-columns='{{maxColumns}}'>
+      <div class="oj-flex-item" id='divUserName' style="display: none;">
+        <oj-label show-required='true' for="userNameInput">Nombre Usuario</oj-label>
+        <oj-input-text id='userNameInput' required value='{{inputUserName}}'></oj-input-text>
+      </div>
+      <div class="oj-flex-item" id='divUserEmail' style="display: none;">
+        <oj-label show-required='true' for="userEmailInput">Email de usuario</oj-label>
+        <oj-input-text id='userEmailInput' required value='{{inputUserEmail}}'></oj-input-text>
+      </div>
+      <div class="oj-flex-item" id='divUserAdmin' style="display: none;">
+        <oj-label show-required='true' for="userAdminInput">Es admin</oj-label>
+        <oj-checkboxset id='userAdminInput' required value='{{inputUserAdmin}}'>
+          <oj-option value="true"></oj-option>
+        </oj-checkboxset>
+      </div>
+      <div class="oj-flex-item" id='divUserBuilding' style="display: none;">
+        <oj-label show-required='true' for="userBuildingInput">Edificio</oj-label>
+        <oj-combobox-one id="userBuildingInput" style="max-width:20em"
+        on-value-changed="[[valueChange]]" required>
+          <!-- ko foreach: buildings -->
+          <oj-option value="[[id]]"><span data-bind="text: name"></span></oj-option>
+          <!-- /ko -->
+        </oj-combobox-one>
+      </div>
+      <div class="oj-flex-item" id='divBuildingName' style="display: none;">
+        <oj-label show-required='true' for="buildingNameInput">Nombre de edifcio</oj-label>
+        <oj-input-text id='buildingNameInput' required value='{{inputBuildingName}}'></oj-input-text>
+      </div>
+      <div class="oj-flex-item" id='divButton' style="display: none; text-align: center;">
+        <oj-button display='icons' chroming='half' data-bind='click:submit'>
+          <span slot='startIcon' class="fas fa-check-circle fa-2x"></span>
+        </oj-button>
+      </div>
+    </oj-form-layout>
+  </div>
+  <!-- /ko -->
+</div>
+<script type="text/html" id="row_tmpl">
+  <tr>
+    <td>
+      <i class="fas fa-edit" data-bind="click: function(data, event){$parent.showChangeNameDialog(id,data,event)}" style="cursor:pointer;"></i>
+    </td>
+    <td>
+      <span data-bind="text:name"></span>
+    </td>
+    <td>
+      <span data-bind="text:email"></span>
+    </td>
+    <td>
+      <span data-bind="text:building"></span>
+    </td>
+    <td>
+      <span data-bind="text:department"></span>
+    </td>
+    <td>
+      <i class="fas" data-bind="style:{color: admin ? 'green':'red' }, css:{ 'fa-check' : admin , 'fa-times' : !admin}"></i>
+    </td>
+  </tr>
+</script>
+<script type="text/html" id="row_tmplB">
+  <tr>
+    <td>
+      <i class="fas fa-edit" data-bind="click: function(data, event){$parent.showChangeNameDialog(id,data,event)}" style="cursor:pointer;"></i>
+    </td>
+    <td>
+      <span data-bind="text:name"></span>
+    </td>
+    <td>
+      <!-- ko foreach: updates -->
+      <span data-bind="text: $data.hour"></span>
+      <!-- /ko -->
+    </td>
+  </tr>
+</script>

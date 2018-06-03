@@ -35,6 +35,10 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojrouter', 'ojs/ojknockout', 'ojs/ojarray
         'ingresos': {
           label: 'Ingresos',
           value: 'ingresos'
+        },
+        'administracion': {
+          label: 'Admin',
+          value: 'administracion'
         }
       });
       oj.Router.defaults.urlAdapter = new oj.Router.urlParamAdapter();
