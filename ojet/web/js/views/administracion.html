@@ -2,7 +2,7 @@
   <div id="mainContent" class="oj-flex oj-lg-justify-content-center oj-margin">
     <oj-accordion id="accordionPage" style="width:100%">
       <oj-collapsible id="c1">
-        <span slot="header"><span><span class="fas fa-users"></span> Usuarios</span>
+        <span slot="header" style="color:#a5b452;"><span><span class="fas fa-users"></span> Usuarios</span>
         </span>
         <oj-table id="table" data="[[datasourceUsers]]" class="oj-flex-item oj-margin oj-lg-10"
         columns='[{"headerText": "", "field": "id", "sortable": "disabled"},
@@ -39,10 +39,11 @@
         </oj-dialog>
       </oj-collapsible>
       <oj-collapsible id="c2">
-        <span slot="header"><span><span class="fas fa-building"></span> Edificios</span>
+        <span slot="header" style="color:#3a76cb;"><span><span class="fas fa-building"></span> Edificios</span>
         </span>
         <oj-table id="table" data="[[datasourceBuildings]]" class="oj-flex-item oj-margin oj-lg-10"
         columns='[{"headerText": "", "field": "id", "sortable": "disabled"},
+        {"headerText": "", "field": "id", "sortable": "disabled"},
                     {"headerText": "Nombre",
                      "field": "name", "sortable": "enabled"},
                      {"headerText": "Horarios de revision",
@@ -109,9 +110,7 @@
         <oj-input-text id='buildingNameInput' required value='{{inputBuildingName}}'></oj-input-text>
       </div>
       <div class="oj-flex-item" id='divButton' style="display: none; text-align: center;">
-        <oj-button display='icons' chroming='half' data-bind='click:submit'>
-          <span slot='startIcon' class="fas fa-check-circle fa-2x"></span>
-        </oj-button>
+          <span data-bind="click:submit" title='Agregar' style="cursor:pointer;color:green;" class="fas fa-check-circle fa-2x"></span>
       </div>
     </oj-form-layout>
   </div>
@@ -141,6 +140,11 @@
 </script>
 <script type="text/html" id="row_tmplB">
   <tr>
+    <td>
+      <oj-checkboxset aria-hidden='true' on-value-changed="[[$parent.enableDelete]]" class='oj-checkboxset-no-chrome'>
+        <oj-option data-bind="attr:{id: id}" value="[[id]]"></oj-option>
+      </oj-checkboxset>
+    </td>
     <td>
       <i class="fas fa-edit" data-bind="click: function(data, event){$parent.showChangeNameDialog(id,data,event)}" style="cursor:pointer;"></i>
     </td>

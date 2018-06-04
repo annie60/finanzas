@@ -1,4 +1,18 @@
 <div class="oj-sm-web-padding-horizontal oj-sm-web-padding-top">
+  <!-- ko if: user.isAdmin -->
+  <div class="oj-panel oj-sm-justify-content-center">
+    <oj-file-picker accept="{{acceptArr}}" selection-mode="single" data-bind="visible: fileNames().length === 0" on-select="{{selectListener}}" class="oj-flex-item" style="max-width:90%">
+      <div slot="trigger" class="oj-filepicker-dropzone">
+        <p class="oj-filepicker-text">Arrastra archivo hasta aqui o da clic para seleccionar<br>
+          <span data-bind="text: 'Archivos seleccionados '+JSON.stringify(acceptArr())"></span>
+        </p>
+      </div>
+    </oj-file-picker>
+    <div class="oj-flex-item oj-margin" style="text-align: center;">
+      <oj-button chroming='half' title="Subir"><span class='fas fa-upload fa-2x' style="color:#a5b452;"></span>Subir</oj-button>
+    </div>
+  </div>
+  <!-- /ko -->
   <div class="oj-flex-bar demo-header-bar">
     <div class="oj-flex-bar-end ">
       <oj-buttonset-one class="oj-sm-only-hide" value="{{activeLayout}}" chroming="half" display="icons" aria-label="Choose layout view.">
@@ -23,7 +37,7 @@
 </div>
 
 <script type="text/html" id="sm_grid_template">
-  <li data-bind="attr: {id: id}" style="width:120px" >
+  <li data-bind="attr: {id: id}" style="width:120px">
     <div style="text-align:center" data-bind="text: name">
     </div>
     <oj-button chroming='half' title="Descargar"><i class="fas fa-download" style="color:#3d518c;" /></oj-button>
@@ -31,7 +45,7 @@
 </script>
 
 <script type="text/html" id="grid_template">
-  <li data-bind="attr: {id: id}" >
+  <li data-bind="attr: {id: id}">
     <div style="text-align:center" data-bind="text: name">
     </div>
     <oj-button chroming='half' title="Descargar"><i class="fas fa-download fa-2x" style="color:#3d518c;" /></oj-button>

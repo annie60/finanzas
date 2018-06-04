@@ -15,6 +15,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'user', 'ojs/ojchart',
       self.currentUser = ko.observable(null);
       self.currentBuilding = ko.observable(null);
       self.buildings = ko.observableArray();
+      self.selectedIdsErase = ko.observable();
       self.datasourceUsers = ko.observable();
       self.datasourceBuildings = ko.observable();
       self.workingId = ko.observable();
@@ -81,6 +82,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'user', 'ojs/ojchart',
 
       }
       self.enableDelete = function(event) {
+        self.selectedIdsErase(event.target.value);
         self.somethingChecked(event && event.target && event.target.value && event.target.value.length);
       };
       // Change selection
@@ -173,6 +175,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'user', 'ojs/ojchart',
               labelText = null;
               break;
           }
+        }else {
+          labelText = null;
         }
         return labelText;
       });

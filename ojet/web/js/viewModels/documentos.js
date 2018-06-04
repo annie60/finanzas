@@ -1,25 +1,49 @@
-define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojarraydataprovider',
-    'ojs/ojlistview'
+define(['ojs/ojcore', 'knockout', 'jquery', 'user', 'ojs/ojarraydataprovider',
+    'ojs/ojlistview', 'ojs/ojfilepicker'
   ],
-  function(oj, ko, $) {
+  function(oj, ko, $, user) {
 
     function DocumentosViewModel() {
       var self = this;
+      self.user = user;
+      self.fileNames = ko.observable([]);
+      self.acceptArr = ko.observable(['.docx', '.csv', '.pdf']);
+      let fileStores = {};
+      self.selectListener = () => {
+        const filesGet = event.detail.files;
+        event.detail.files = [];
+        self.fileNames.push(filesGet[0].name);
+        files.fileName = filesGet[0].name;
+        const r = new FileReader();
+
+        r.onload = (e) => {
+          const contents = e.target.result;
+          // Sends just blob content not the inside plain text
+          files.fileContent = contents;
+          const filesToJson = [];
+          filesToJson.push(files);
+          fileStores = filesToJson;
+        };
+        r.readAsDataURL(filesGet[0]);
+      };
       const smQuery = oj.ResponsiveUtils.getFrameworkQuery(oj.ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY);
       self.small = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(smQuery);
       const data = [{
-        "id": "reg-1",
-        "name": "Reglamentos de condominos"
-      },
-      {
-        "id": "red-2",
-        "name": "Reglamentos de visitantes"
-      },
-      {
-        "id": "ava-1",
-        "name": "Avance de pintura"
-      }];
-      self.dataSource = new oj.ArrayDataProvider(data, {'idAttribute': 'id'});
+          "id": "reg-1",
+          "name": "Reglamentos de condominos"
+        },
+        {
+          "id": "red-2",
+          "name": "Reglamentos de visitantes"
+        },
+        {
+          "id": "ava-1",
+          "name": "Avance de pintura"
+        }
+      ];
+      self.dataSource = new oj.ArrayDataProvider(data, {
+        'idAttribute': 'id'
+      });
       self.layoutViewRadios = [{
           "id": 'grid',
           label: 'Cambiar a tabla',
